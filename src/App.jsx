@@ -4,10 +4,10 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SearchResources from "./pages/SearchResources";
 import AdminDashboard from "./pages/AdminDashboard";
-import Login from "./pages/Login"; // You will need to create this file
+import Login from "./pages/Login";
 
 function App() {
-  // --- Resource State (Existing) ---
+  // --- Resource State ---
   const [resources, setResources] = useState(() => {
     const savedResources = localStorage.getItem("library_resources");
     return savedResources ? JSON.parse(savedResources) : [
@@ -17,17 +17,17 @@ function App() {
     ];
   });
 
-  // --- Login State (New) ---
-  // Tracks if the user is null, 'student', or 'admin'
+  // --- Login State ---
   const [user, setUser] = useState(() => {
     return localStorage.getItem("app_user") || null;
   });
 
+  // Sync resources to localStorage
   useEffect(() => {
     localStorage.setItem("library_resources", JSON.stringify(resources));
   }, [resources]);
 
-  // Save user session to localStorage
+  // Sync user session to localStorage
   useEffect(() => {
     if (user) {
       localStorage.setItem("app_user", user);
@@ -45,34 +45,34 @@ function App() {
     setResources(resources.filter(item => item.id !== id));
   };
 
-  // Login handler
   const handleLogin = (role) => {
     setUser(role);
   };
 
-  // Logout handler
   const handleLogout = () => {
     setUser(null);
   };
 
   return (
     <Router>
-      {/* Pass user and logout function to Navbar */}
+      {/* 1. Navbar is OUTSIDE the Routes so it stays at the top.
+        2. No wrapping <div> here to prevent white space gaps. 
+      */}
       <Navbar user={user} onLogout={handleLogout} />
       
       <Routes>
+        {/* PUBLIC ROUTE: Everyone sees Home first */}
         <Route path="/" element={<Home />} />
         
-        {/* Login Route */}
+        {/* LOGIN ROUTE */}
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         
-        {/* Protected Search Route: accessible to both student and admin */}
+        {/* PROTECTED ROUTES */}
         <Route 
           path="/search" 
           element={user ? <SearchResources resources={resources} /> : <Navigate to="/login" />} 
         />
         
-        {/* Protected Admin Route: strictly for admin only */}
         <Route 
           path="/admin" 
           element={
@@ -87,6 +87,9 @@ function App() {
             )
           } 
         />
+        
+        {/* CATCH-ALL: Redirect unknown pages to Home */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
