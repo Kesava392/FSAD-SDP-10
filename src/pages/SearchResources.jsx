@@ -1,33 +1,42 @@
+import { useState } from "react";
+
 function SearchResources() {
+  const [search, setSearch] = useState("");
+
   const resources = [
     { title: "Operating Systems.pdf", category: "CS" },
     { title: "Computer Networks.pdf", category: "CS" },
-    { title: "Research Paper AI.pdf", category: "AI" }
+    { title: "Research Paper AI.pdf", category: "AI" },
   ];
 
+  const filteredResources = resources.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h2>Search Resources</h2>
 
       <input
         type="text"
-        placeholder="Search..."
-        style={{ padding: "8px", width: "300px" }}
+        placeholder="Search resources..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{
+          padding: "10px",
+          width: "300px",
+          marginTop: "15px",
+          marginBottom: "25px",
+        }}
       />
 
-      <div style={{ marginTop: "20px" }}>
-        {resources.map((item, index) => (
-          <div key={index} style={{
-            border: "1px solid #ccc",
-            padding: "10px",
-            marginBottom: "10px"
-          }}>
-            <h4>{item.title}</h4>
-            <p>Category: {item.category}</p>
-            <button>Download</button>
-          </div>
-        ))}
-      </div>
+      {filteredResources.map((item, index) => (
+        <div className="card" key={index}>
+          <h3>{item.title}</h3>
+          <p>Category: {item.category}</p>
+          <button>Download</button>
+        </div>
+      ))}
     </div>
   );
 }
