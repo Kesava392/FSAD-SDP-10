@@ -32,7 +32,9 @@ nav a:hover {
 
 /* Container */
 .container {
-  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
 }
 
 /* Cards */
