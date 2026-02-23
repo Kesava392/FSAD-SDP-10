@@ -4,10 +4,11 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SearchResources from "./pages/SearchResources";
 import AdminDashboard from "./pages/AdminDashboard";
-import Login from "./pages/Login"; // You will need to create this file
+import Login from "./pages/Login";
+import Contact from "./pages/Contact"; // 1. IMPORT THE NEW PAGE
 
 function App() {
-  // --- Resource State (Existing) ---
+  // ... (Keep all your existing state and functions exactly the same)
   const [resources, setResources] = useState(() => {
     const savedResources = localStorage.getItem("library_resources");
     return savedResources ? JSON.parse(savedResources) : [
@@ -17,8 +18,6 @@ function App() {
     ];
   });
 
-  // --- Login State (New) ---
-  // Tracks if the user is null, 'student', or 'admin'
   const [user, setUser] = useState(() => {
     return localStorage.getItem("app_user") || null;
   });
@@ -27,7 +26,6 @@ function App() {
     localStorage.setItem("library_resources", JSON.stringify(resources));
   }, [resources]);
 
-  // Save user session to localStorage
   useEffect(() => {
     if (user) {
       localStorage.setItem("app_user", user);
@@ -45,34 +43,31 @@ function App() {
     setResources(resources.filter(item => item.id !== id));
   };
 
-  // Login handler
   const handleLogin = (role) => {
     setUser(role);
   };
 
-  // Logout handler
   const handleLogout = () => {
     setUser(null);
   };
 
   return (
     <Router>
-      {/* Pass user and logout function to Navbar */}
       <Navbar user={user} onLogout={handleLogout} />
       
       <Routes>
         <Route path="/" element={<Home />} />
         
-        {/* Login Route */}
+        {/* 2. ADD THE CONTACT ROUTE HERE (PUBLIC) */}
+        <Route path="/contact" element={<Contact />} /> 
+        
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         
-        {/* Protected Search Route: accessible to both student and admin */}
         <Route 
           path="/search" 
           element={user ? <SearchResources resources={resources} /> : <Navigate to="/login" />} 
-        />
+         Bradley/>
         
-        {/* Protected Admin Route: strictly for admin only */}
         <Route 
           path="/admin" 
           element={
@@ -87,6 +82,8 @@ function App() {
             )
           } 
         />
+        
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
