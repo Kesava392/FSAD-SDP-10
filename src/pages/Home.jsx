@@ -1,31 +1,27 @@
 function Home() {
   return (
-    <div className="container" style={{ textAlign: "center" }}>
-      <h1 style={{ fontSize: "42px", marginBottom: "15px" }}>
+    <div className="container">
+      <h1 className="hero-title">
         Welcome to Web-Based Resource Library
       </h1>
 
-      <p style={{ fontSize: "18px", marginBottom: "40px" }}>
+      <p className="hero-subtitle">
         Search, upload and manage educational resources easily.
       </p>
 
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: "30px",
-        flexWrap: "wrap"
-      }}>
-        <div className="card" style={{ width: "250px" }}>
+      {/* Using the grid-layout class from your updated CSS */}
+      <div className="grid-layout">
+        <div className="card" style={{ width: "280px" }}>
           <h3>🔍 Search Resources</h3>
           <p>Find study materials quickly and efficiently.</p>
         </div>
 
-        <div className="card" style={{ width: "250px" }}>
+        <div className="card" style={{ width: "280px" }}>
           <h3>📂 Upload Files</h3>
           <p>Admin can upload and manage resources easily.</p>
         </div>
 
-        <div className="card" style={{ width: "250px" }}>
+        <div className="card" style={{ width: "280px" }}>
           <h3>⚡ Fast Access</h3>
           <p>Access categorized educational content instantly.</p>
         </div>

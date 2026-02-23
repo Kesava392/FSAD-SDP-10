@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SearchResources from "./pages/SearchResources";
 import AdminDashboard from "./pages/AdminDashboard";
+import Login from "./pages/Login"; // You will need to create this file
 
 function App() {
-  // 1. Initialize state from LocalStorage or use default data if empty
+  // --- Resource State (Existing) ---
   const [resources, setResources] = useState(() => {
     const savedResources = localStorage.getItem("library_resources");
     return savedResources ? JSON.parse(savedResources) : [
@@ -16,46 +17,74 @@ function App() {
     ];
   });
 
-  // 2. Save to LocalStorage whenever the resources list changes
+  // --- Login State (New) ---
+  // Tracks if the user is null, 'student', or 'admin'
+  const [user, setUser] = useState(() => {
+    return localStorage.getItem("app_user") || null;
+  });
+
   useEffect(() => {
     localStorage.setItem("library_resources", JSON.stringify(resources));
   }, [resources]);
 
-  // 3. Function to add a new resource (to be called by AdminDashboard)
+  // Save user session to localStorage
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("app_user", user);
+    } else {
+      localStorage.removeItem("app_user");
+    }
+  }, [user]);
+
   const addResource = (newResource) => {
-    const resourceWithId = {
-      ...newResource,
-      id: Date.now(), // Unique ID based on timestamp
-    };
+    const resourceWithId = { ...newResource, id: Date.now() };
     setResources((prev) => [...prev, resourceWithId]);
   };
 
-  // 4. Function to delete a resource (optional but useful for Admin)
   const deleteResource = (id) => {
     setResources(resources.filter(item => item.id !== id));
   };
 
+  // Login handler
+  const handleLogin = (role) => {
+    setUser(role);
+  };
+
+  // Logout handler
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
     <Router>
-      <Navbar />
+      {/* Pass user and logout function to Navbar */}
+      <Navbar user={user} onLogout={handleLogout} />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         
-        {/* Pass resources as props to Search */}
+        {/* Login Route */}
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        
+        {/* Protected Search Route: accessible to both student and admin */}
         <Route 
           path="/search" 
-          element={<SearchResources resources={resources} />} 
+          element={user ? <SearchResources resources={resources} /> : <Navigate to="/login" />} 
         />
         
-        {/* Pass the addResource function as a prop to Admin */}
+        {/* Protected Admin Route: strictly for admin only */}
         <Route 
           path="/admin" 
           element={
-            <AdminDashboard 
-              resources={resources} 
-              addResource={addResource} 
-              deleteResource={deleteResource} 
-            />
+            user === "admin" ? (
+              <AdminDashboard 
+                resources={resources} 
+                addResource={addResource} 
+                deleteResource={deleteResource} 
+              />
+            ) : (
+              <Navigate to="/login" />
+            )
           } 
         />
       </Routes>
