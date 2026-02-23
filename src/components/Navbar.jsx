@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-// user: the current logged-in state ('admin', 'student', or null)
+// user: the current logged-in state ('admin', 'learner', or null)
 // onLogout: the function that clears the user session
 function Navbar({ user, onLogout }) {
   return (
@@ -8,7 +8,9 @@ function Navbar({ user, onLogout }) {
       <div className="nav-content">
         <h2 className="logo">Resource Library</h2>
         <div className="nav-links">
+          {/* ALWAYS VISIBLE LINKS */}
           <Link to="/" className="nav-item">Home</Link>
+          <Link to="/contact" className="nav-item">Contact Us</Link>
 
           {/* Show Admin link only for admins */}
           {user === "admin" && (

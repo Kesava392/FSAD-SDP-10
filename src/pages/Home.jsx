@@ -16,10 +16,11 @@ function Home() {
           <p>Find study materials quickly and efficiently.</p>
         </div>
 
-        <div className="card" style={{ width: "280px" }}>
-          <h3>📂 Upload Files</h3>
-          <p>Admin can upload and manage resources easily.</p>
-        </div>
+        <div className="card">
+  <div className="card-icon"></div>
+  <h3>📚  Study Materials</h3>
+  <p>Access notes, past papers, and textbooks organized by subject.</p>
+</div>
 
         <div className="card" style={{ width: "280px" }}>
           <h3>⚡ Fast Access</h3>

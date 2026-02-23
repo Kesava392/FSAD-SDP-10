@@ -5,9 +5,10 @@ import Home from "./pages/Home";
 import SearchResources from "./pages/SearchResources";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
+import Contact from "./pages/Contact"; // 1. IMPORT THE NEW PAGE
 
 function App() {
-  // --- Resource State ---
+  // ... (Keep all your existing state and functions exactly the same)
   const [resources, setResources] = useState(() => {
     const savedResources = localStorage.getItem("library_resources");
     return savedResources ? JSON.parse(savedResources) : [
@@ -17,17 +18,14 @@ function App() {
     ];
   });
 
-  // --- Login State ---
   const [user, setUser] = useState(() => {
     return localStorage.getItem("app_user") || null;
   });
 
-  // Sync resources to localStorage
   useEffect(() => {
     localStorage.setItem("library_resources", JSON.stringify(resources));
   }, [resources]);
 
-  // Sync user session to localStorage
   useEffect(() => {
     if (user) {
       localStorage.setItem("app_user", user);
@@ -55,23 +53,20 @@ function App() {
 
   return (
     <Router>
-      {/* 1. Navbar is OUTSIDE the Routes so it stays at the top.
-        2. No wrapping <div> here to prevent white space gaps. 
-      */}
       <Navbar user={user} onLogout={handleLogout} />
       
       <Routes>
-        {/* PUBLIC ROUTE: Everyone sees Home first */}
         <Route path="/" element={<Home />} />
         
-        {/* LOGIN ROUTE */}
+        {/* 2. ADD THE CONTACT ROUTE HERE (PUBLIC) */}
+        <Route path="/contact" element={<Contact />} /> 
+        
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         
-        {/* PROTECTED ROUTES */}
         <Route 
           path="/search" 
           element={user ? <SearchResources resources={resources} /> : <Navigate to="/login" />} 
-        />
+         Bradley/>
         
         <Route 
           path="/admin" 
@@ -88,7 +83,6 @@ function App() {
           } 
         />
         
-        {/* CATCH-ALL: Redirect unknown pages to Home */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
