@@ -340,3 +340,88 @@ nav a:hover {
   background: #1d4ed8;
   transform: translateY(-1px);
 }
+
+/* --- 11. USER DASHBOARD (LEARNER VIEW) --- */
+.user-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 100px 20px;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-header {
+  width: 100%;
+  max-width: 1100px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 25px;
+  padding-left: 50px;
+  border-radius: 50px;
+  border: 2px solid #e2e8f0;
+  font-size: 1rem;
+  transition: 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.book-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.borrow-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.borrow-btn:hover {
+  background: #2563eb;
+}
