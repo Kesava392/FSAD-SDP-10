@@ -10,8 +10,7 @@ body {
   background-color: #f4f6f9;
   color: #1e293b;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
+  display: block; 
 }
 
 /* --- 2. NAVBAR --- */
@@ -93,7 +92,7 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* --- 4. GLOBAL LAYOUT (FULL SCREEN FIX) --- */
+/* --- 4. LANDING PAGE LAYOUT (Home) --- */
 .container {
   width: 100vw; 
   min-height: 100vh;
@@ -103,10 +102,6 @@ nav a:hover {
   flex-direction: column;
   align-items: center; 
   text-align: center;
-  margin-left: 0;
-  margin-right: 0;
-  left: 0;
-
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
               url('/library-bg.jpg'); 
   background-size: cover;
@@ -115,16 +110,12 @@ nav a:hover {
   background-attachment: fixed;
 }
 
-/* --- 5. HERO SECTION WITH TEXT EFFECTS --- */
 .hero-title {
   font-size: 3.5rem;
   margin-bottom: 15px;
   color: #ffffff; 
   font-weight: 800;
-  width: 100%;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-
-  /* Animation: name | duration | ease | delay | fill-mode */
   animation: textFloatUp 0.8s ease-out 0.2s both;
 }
 
@@ -133,24 +124,17 @@ nav a:hover {
   margin-bottom: 50px;
   color: #e2e8f0; 
   max-width: 700px;
-  font-weight: 500;
-
-  /* Starts slightly after the title */
   animation: textFloatUp 0.8s ease-out 0.4s both;
 }
 
-/* --- 6. GRID & CARDS (GLASS EFFECT) --- */
+/* --- 5. GRID & CARDS (Home) --- */
 .grid-layout {
   display: flex;
   justify-content: center; 
-  align-items: stretch;
   gap: 30px;
   flex-wrap: wrap;
   width: 100%;
   max-width: 1100px;
-  margin-top: 20px;
-
-  /* Cards fade in last */
   animation: textFloatUp 0.8s ease-out 0.6s both;
 }
 
@@ -161,66 +145,135 @@ nav a:hover {
   border-radius: 16px;
   box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
-  text-align: left;
+  width: 300px; 
+}
+
+/* --- 6. ADMIN DASHBOARD LAYOUT (FORCED FULL WIDTH) --- */
+.admin-wrapper {
+  /* Using 100vw and absolute positioning to mimic your Home page fix */
+  width: 100vw; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 80px 20px; 
   display: flex;
   flex-direction: column;
-  width: 300px; 
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  align-items: center; 
+  
+  /* Apply the background photo here to ensure edge-to-edge coverage */
+  background: linear-gradient(rgba(241, 245, 249, 0.3), rgba(241, 245, 249, 0.3)), 
+              url('/server-bg.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* This forces the container to ignore any parent padding/margins */
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0px 20px 40px rgba(0,0,0,0.15);
+/* Ensure sidebar code remains hidden so it doesn't create gaps */
+.sidebar {
+  display: none;
 }
 
-/* --- 7. ANIMATION KEYFRAMES --- */
+.admin-content {
+  width: 100%;
+  max-width: 1100px; /* Limits content width while keeping BG full-screen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.96); 
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 100%;
+  max-width: 900px;
+  animation: textFloatUp 0.5s ease-out;
+}
+
+/* --- 7. ADMIN TABLES & BADGES --- */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: transparent;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 15px 12px;
+  color: #1e293b;
+  font-weight: 700;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+}
+
+.admin-table tr:hover {
+  background-color: rgba(248, 250, 252, 0.5);
+}
+
+.badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-block;
+}
+/* --- 8. BUTTONS & UTILITIES --- */
+.btn-add {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-add:hover {
+  background: #059669;
+}
+
+.btn-delete {
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-delete:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* --- 9. ANIMATIONS --- */
 @keyframes textFloatUp {
   from {
     opacity: 0;
-    transform: translateY(25px); /* Moves up from 25px below */
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* --- 8. ADMIN SIDEBAR --- */
-.admin-wrapper {
-  display: flex;
-  min-height: calc(100vh - 70px);
-  margin-top: 60px;
-}
-
-.sidebar {
-  width: 240px;
-  background: #1e293b;
-  color: white;
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.admin-content {
-  flex: 1;
-  padding: 40px;
-  background-color: #f8fafc;
-}
-
-/* --- 9. GENERIC BUTTONS --- */
-button {
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-button:hover {
-  background-color: #1d4ed8;
 }
