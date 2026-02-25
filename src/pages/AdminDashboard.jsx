@@ -22,7 +22,7 @@ function AdminDashboard({ resources, addResource, deleteResource }) {
           <h2 style={{ fontSize: '2.5rem', color: '#1e293b', fontWeight: '800' }}>
             Management Dashboard
           </h2>
-          <p style={{ color: '#475569', fontSize: '1.1rem' }}>
+          <p style={{ color: '#496387', fontSize: '1.1rem' }}>
             Create and organize your digital library assets
           </p>
         </header>
@@ -48,8 +48,26 @@ function AdminDashboard({ resources, addResource, deleteResource }) {
               style={{ flex: '1', padding: '12px', borderRadius: '8px', border: '1px solid #ddd' }}
             >
               <option value="CS">Computer Science</option>
-              <option value="AI">AI & ML</option>
-              <option value="Math">Mathematics</option>
+<option value="AI">AI & Machine Learning</option>
+<option value="Cyber">Cyber Security</option>
+<option value="Data">Data Science & Analytics</option>
+<option value="SE">Software Engineering</option>
+<option value="Cloud">Cloud Computing</option>
+
+<option value="Math">Mathematics</option>
+<option value="Phys">Physics</option>
+<option value="Bio">Biotechnology</option>
+
+<option value="UX">UI/UX Design</option>
+<option value="Gfx">Graphic Design</option>
+<option value="Game">Game Development</option>
+
+<option value="Biz">Business Management</option>
+<option value="Mkt">Digital Marketing</option>
+<option value="Fin">Finance & Accounting</option>
+
+<option value="Eng">English Literature</option>
+<option value="Psych">Psychology</option>
             </select>
             <button type="submit" className="btn-add">Add Resource</button>
           </form>
