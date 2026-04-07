@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login({ onLogin }) {
   const [isNewUser, setIsNewUser] = useState(false);
@@ -8,43 +9,41 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleAction = (e) => {
+  const handleAction = async (e) => {
     e.preventDefault();
 
-    // 1. GET EXISTING USERS FROM STORAGE (OR EMPTY ARRAY)
-    const storedUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
-
-    if (isNewUser) {
-      // REGISTRATION LOGIC
-      const newUser = { email, username, password, role: "learner" };
-      
-      // Save new user to the list
-      storedUsers.push(newUser);
-      localStorage.setItem("registeredUsers", JSON.stringify(storedUsers));
-      
-      alert("Registration Successful! Now you can login.");
-      setIsNewUser(false); // Switch to login view
-      setEmail(""); // Clear email
-    } else {
-      // LOGIN LOGIC
-      
-      // A. Check Hardcoded Admin
-      if (username === "admin" && password === "k392d100076k344") {
-        onLogin("admin");
-        navigate("/admin");
-        return;
-      }
-
-      // B. Check Registered Users in LocalStorage
-      const userExists = storedUsers.find(
-        (u) => u.username === username && u.password === password
-      );
-
-      if (userExists) {
-        onLogin(userExists.role);
-        navigate("/search");
+    try {
+      if (isNewUser) {
+        // Registration: POST to backend
+        const response = await axios.post("http://localhost:8082/users/register", {
+          username,
+          password,
+          email
+        });
+        alert(response.data); // Show backend message
+        setIsNewUser(false); // Switch to login view
+        setEmail("");
+        setUsername("");
+        setPassword("");
       } else {
-        alert("Invalid Credentials! Please check your username/password or register.");
+        // Login: POST to backend
+        const response = await axios.post("http://localhost:8082/users/login", {
+          username,
+          password
+        });
+
+        if (response.status === 200) {
+          alert(response.data); // Login Successful
+          onLogin(username); // store username in parent component
+          navigate("/search"); // redirect after login
+        }
+      }
+    } catch (error) {
+      // Show backend error message
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("An unexpected error occurred. Please try again.");
       }
     }
   };
@@ -53,13 +52,13 @@ function Login({ onLogin }) {
     <div className="login-wrapper">
       <div className="login-card">
         <h2>{isNewUser ? "Create Account" : "System Login"}</h2>
-        <p>{isNewUser ? "Enter your email to get started" : "Access the Management Dashboard"}</p>
+        <p>{isNewUser ? "Enter your details to get started" : "Access the Management Dashboard"}</p>
         
         <form onSubmit={handleAction} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
           {isNewUser && (
             <input 
               type="email" 
-              placeholder="Mail ID" 
+              placeholder="Email" 
               className="login-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
