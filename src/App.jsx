@@ -10,7 +10,7 @@ import Contact from "./pages/Contact";
 
 function App() {
   // Use the correct backend URL
-  const API_URL = "http://localhost:8082/api/books";
+ const API_URL = "https://fsad-sdp-10-backend-production.up.railway.app/api/books";
 
   // Initializing state as an empty array (it will be filled by the DB)
   const [resources, setResources] = useState([]);
