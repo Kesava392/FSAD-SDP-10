@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Added Link
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login({ onLogin }) {
@@ -14,8 +14,7 @@ function Login({ onLogin }) {
 
     try {
       if (isNewUser) {
-        // Registration: POST to backend
-        const response = await axios.post("http://localhost:8082/users/register", {
+        const response = await axios.post("https://fsad-sdp-10-backend-production.up.railway.app/users/register", {
           username,
           password,
           email
@@ -26,8 +25,7 @@ function Login({ onLogin }) {
         setUsername("");
         setPassword("");
       } else {
-        // Login: POST to backend
-        const response = await axios.post("http://localhost:8082/users/login", {
+        const response = await axios.post("https://fsad-sdp-10-backend-production.up.railway.app/users/login", {
           username,
           password
         });
@@ -51,13 +49,12 @@ function Login({ onLogin }) {
     <div className="login-wrapper">
       <div className="login-card">
         
-        {/* --- BLACK BACK TO HOME BUTTON --- */}
         <div style={{ marginBottom: "20px", textAlign: "left" }}>
           <Link 
             to="/" 
             style={{ 
               textDecoration: "none", 
-              color: "#ffffff",             // White text
+              color: "#ffffff",
               fontSize: "0.9rem", 
               display: "inline-flex", 
               alignItems: "center", 
@@ -65,16 +62,15 @@ function Login({ onLogin }) {
               fontWeight: "500",
               padding: "8px 14px",
               borderRadius: "8px",
-              backgroundColor: "#1e293b",   // Dark Black/Charcoal background
+              backgroundColor: "#1e293b",
               transition: "background-color 0.2s"
             }}
-            onMouseOver={(e) => e.target.style.backgroundColor = "#0f172a"} // Darker on hover
+            onMouseOver={(e) => e.target.style.backgroundColor = "#0f172a"}
             onMouseOut={(e) => e.target.style.backgroundColor = "#1e293b"}
           >
             <span style={{ fontSize: "1.1rem" }}>←</span> Back to Home
           </Link>
         </div>
-        {/* --------------------------- */}
 
         <h2>{isNewUser ? "Create Account" : "System Login"}</h2>
         <p>{isNewUser ? "Enter your details to get started" : "Access the Management Dashboard"}</p>
